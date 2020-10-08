@@ -25,7 +25,7 @@ import static com.myknife.game.Constants.WORLD_SIZE;
 public class Wood implements InputProcessor {
 
     Vector2 position = null;
-    Viewport viewport = null;
+    Viewport viewport;
     Texture woodImage;
     Texture knife;
     Sprite woodSprite;
@@ -82,8 +82,8 @@ public class Wood implements InputProcessor {
 
         for(int i = 0; i < 4; i++){
             float angle = 45 + i * 90;
-            int random = MathUtils.random(1);
-            if(random == 0) {
+            int random = MathUtils.random(100);
+            if(random < 50) {
                 fruitRemoval.add(orange(angle));
             }else{
                 fruitRemoval.add(apple(angle));
@@ -125,10 +125,8 @@ public class Wood implements InputProcessor {
     }
 
     private void tossKnife(float delta) {
-        knifeRemoval.begin();
 
-
-        if((toss == true) && (knifeRemoval.size == 1)) {
+        if((toss) && (knifeRemoval.size == 1)) {
             Rectangle thrown = knifeRemoval.get(0).sprite.getBoundingRectangle();
             thrown.setHeight(thrown.getHeight()/1.5f);
             thrown.setWidth(thrown.getWidth()/6);
@@ -136,7 +134,7 @@ public class Wood implements InputProcessor {
                     Rectangle stuck = knife.sprite.getBoundingRectangle();
                     stuck.setWidth(stuck.getWidth()/1.5f);
                     stuck.setHeight(stuck.getHeight()/1.5f);
-                if(stuck.overlaps(thrown)){
+                if(stuck.overlaps(thrown) && !knifeRemoval.get(0).getHit()){
                     overlapped = true;
                 }
                 int index = 0;
@@ -145,7 +143,8 @@ public class Wood implements InputProcessor {
                     thrown.setWidth(thrown.getWidth()*6);
                     Rectangle fruit1 = fruit.sprite1.getBoundingRectangle();
                     Rectangle fruit2 = fruit.sprite2.getBoundingRectangle();
-                    if((thrown.overlaps(fruit1) || thrown.overlaps(fruit2)) && !fruit.getSliced()){
+                    fruit2.setWidth(fruit2.getWidth()*5/7);
+                    if((thrown.overlaps(fruit1) || thrown.overlaps(fruit2)) && !fruit.getSliced() && !knifeRemoval.get(0).getHit()){
                         overlappedFruit = true;
                         slicedFruitIndex = index;
                     }
@@ -156,16 +155,12 @@ public class Wood implements InputProcessor {
             }
 
             if(overlapped){
-                knifeRemoval.removeIndex(0);
-                nextKnifeAdd();
+                Knife knifeTemp = knifeRemoval.get(0);
+                knifeRemoval.clear();
+                knifeTemp.setHit(true);
+                knifeRemoval.add(knifeTemp);
                 overlapped = false;
-                toss = false;
-            }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGTH - knifeRemoval.get(0).getSprite().getHeight()/2){
-                knifeRemoval.removeIndex(0);
-                nextKnifeAdd();
-                stuckKnifeAdd();
-                System.out.println("1");
-                toss = false;
+
             }else if(overlappedFruit){
                 overlappedFruit = false;
                 Fruit fruitTemp = fruitRemoval.get(slicedFruitIndex);
@@ -174,15 +169,31 @@ public class Wood implements InputProcessor {
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
                 stuckKnifeAdd();
-                System.out.println("2");
                 toss = false;
 
-            }else{
+            }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGTH - knifeRemoval.get(0).getSprite().getHeight()/2){
+                knifeRemoval.removeIndex(0);
+                nextKnifeAdd();
+                stuckKnifeAdd();
+                toss = false;
+            }else if(!knifeRemoval.get(0).getHit()){
+
                 knifeRemoval.get(0).update(delta);
+
             }
+            if (knifeRemoval.get(0).getHit()) {
+                knifeRemoval.get(0).updateSlice(delta);
+                System.out.println("1");
+                if (knifeRemoval.get(0).getPosition().y < -knifeRemoval.get(0).sprite.getHeight()) {
+                    knifeRemoval.removeIndex(0);
+                    toss = false;
+                    nextKnifeAdd();
+                }
+            }
+
         }
 
-        knifeRemoval.end();
+
     }
 
     public void render(SpriteBatch batch) {
@@ -191,9 +202,11 @@ public class Wood implements InputProcessor {
         for(int i=0; i<stuckKnives.size();i++){
             stuckKnives.get(i).render(batch);
         }
-        if( (knifeRemoval.size == 1)) {
-            knifeRemoval.get(0).render(batch);
-        }
+            if(knifeRemoval.get(0).getHit()){
+                knifeRemoval.get(0).renderSlice(batch);
+            }else {
+                knifeRemoval.get(0).render(batch);
+            }
 
         woodSprite.setPosition(WORLD_SIZE/2 - woodSprite.getWidth()/2, WOOD_HEIGTH );
         woodSprite.draw(batch);

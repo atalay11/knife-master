@@ -105,9 +105,9 @@ public class Fruit {
         vy3-=12.0f;
         vy2-=12.0f;
         position1.y += delta * vy1;
-        position1.x += delta * vx1;
+        position1.x += -delta * vx1;
         sprite1.rotate(delta*60);
-        position2.x += -delta * vx2;
+        position2.x += delta * vx2;
         position2.y += delta * vy2;
         sprite2.rotate(delta*60);
         position3.x += -delta * vx3;
