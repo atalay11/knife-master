@@ -239,4 +239,6 @@ public class Fruit {
     public void setSliced(Boolean sliced) {
         isSliced = sliced;
     }
+
+
 }

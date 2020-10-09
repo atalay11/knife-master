@@ -26,10 +26,11 @@ public class MainAction implements InputProcessor {
     Texture knife;
     Sprite spriteKnife;
     ArrayList<StuckKnife> stuckKnives = new ArrayList<StuckKnife>();
-    Boolean toss, overlapped, overlappedFruit, turn;
+    Boolean toss, overlapped, overlappedFruit, turn , gameFinished;
     DelayedRemovalArray<Knife> knifeRemoval;
     DelayedRemovalArray<Fruit> fruitRemoval;
     WoodFinishedAnimation woodFinishedAnimation;
+    Knife lastHitKnife;
     Wood wood;
     Fruit fruitDeneme;
     int slicedFruitIndex,blueKnife,redKnife;
@@ -46,8 +47,10 @@ public class MainAction implements InputProcessor {
         turn = true;
         toss = false;
         redKnife = blueKnife = 5;
+        gameFinished = false;
         wood = new Wood();
         woodFinishedAnimation = new WoodFinishedAnimation();
+        lastHitKnife = null;
 
         knifeRemoval = new DelayedRemovalArray<Knife>(false, 1);
         fruitRemoval = new DelayedRemovalArray<Fruit>(false, 6);
@@ -98,7 +101,7 @@ public class MainAction implements InputProcessor {
 
 
     public void update(float delta) {
-        if(redKnife>0||blueKnife>0){
+        if(!gameFinished){
             wood.update(delta);
             for(int i=0; i<stuckKnives.size();i++){
                 stuckKnives.get(i).update(delta);
@@ -115,6 +118,9 @@ public class MainAction implements InputProcessor {
         }
         else {
             woodFinishedAnimation.update(delta);
+            if(lastHitKnife != null){
+                lastHitKnife.updateHit(delta);
+            }
             int i=0;
             for(StuckKnife k: stuckKnives){
                 k.updateFinished(delta);
@@ -162,6 +168,10 @@ public class MainAction implements InputProcessor {
                 knifeRemoval.clear();
                 knifeTemp.setHit(true);
                 knifeRemoval.add(knifeTemp);
+                kCount();
+                if(gameFinished){
+                    lastHitKnife = knifeRemoval.get(0);
+                }
                 overlapped = false;
 
             }else if(overlappedFruit){
@@ -172,15 +182,15 @@ public class MainAction implements InputProcessor {
                 fruitRemoval.set(slicedFruitIndex, fruitTemp);
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
-                kCount();
                 stuckKnifeAdd();
+                kCount();
                 toss = false;
 
             }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGTH - knifeRemoval.get(0).getSprite().getHeight()/2){
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
-                kCount();
                 stuckKnifeAdd();
+                kCount();
                 toss = false;
             }else if(!knifeRemoval.get(0).getHit()){
 
@@ -193,7 +203,6 @@ public class MainAction implements InputProcessor {
                 if (knifeRemoval.get(0).getPosition().y < -knifeRemoval.get(0).sprite.getHeight()) {
                     knifeRemoval.removeIndex(0);
                     toss = false;
-                    kCount();
                     nextKnifeAdd();
                 }
             }
@@ -205,11 +214,7 @@ public class MainAction implements InputProcessor {
 
     public void render(SpriteBatch batch) {
 
-
-
-
-
-        if(redKnife>0||blueKnife>0)
+        if(!gameFinished)
             {
 
                 for(int i=0; i<stuckKnives.size();i++){
@@ -235,6 +240,9 @@ public class MainAction implements InputProcessor {
         else
                 {
                 woodFinishedAnimation.render(batch);
+                if(lastHitKnife != null){
+                    lastHitKnife.renderHit(batch);
+                }
                 for(StuckKnife k : stuckKnives){
                         k.renderFinished(batch);
                     }
@@ -268,6 +276,10 @@ public class MainAction implements InputProcessor {
             redKnife-=1;
         else
             blueKnife-=1;
+
+        if(redKnife <= 0 && blueKnife <= 0){
+            gameFinished = true;
+        }
     }
 
     @Override

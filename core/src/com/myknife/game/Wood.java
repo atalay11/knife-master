@@ -24,7 +24,7 @@ public class Wood {
     }
 
     public void render(SpriteBatch batch){
-        sprite.setPosition(WORLD_SIZE/2 - sprite.getWidth()/2, WOOD_HEIGTH );
+        sprite.setPosition(WORLD_SIZE/2 - sprite.getWidth()/2, WOOD_HEIGTH);
         sprite.draw(batch);
     }
 }
