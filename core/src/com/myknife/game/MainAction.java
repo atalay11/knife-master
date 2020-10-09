@@ -31,6 +31,7 @@ public class MainAction implements InputProcessor {
     DelayedRemovalArray<Fruit> fruitRemoval;
     WoodFinishedAnimation woodFinishedAnimation;
     Knife lastHitKnife;
+    Fruit lastHitFruit;
     Wood wood;
     Fruit fruitDeneme;
     int slicedFruitIndex,blueKnife,redKnife;
@@ -51,6 +52,7 @@ public class MainAction implements InputProcessor {
         wood = new Wood();
         woodFinishedAnimation = new WoodFinishedAnimation();
         lastHitKnife = null;
+        lastHitFruit = null;
 
         knifeRemoval = new DelayedRemovalArray<Knife>(false, 1);
         fruitRemoval = new DelayedRemovalArray<Fruit>(false, 6);
@@ -121,6 +123,9 @@ public class MainAction implements InputProcessor {
             if(lastHitKnife != null){
                 lastHitKnife.updateHit(delta);
             }
+            if(lastHitFruit != null){
+                lastHitFruit.updateSlice(delta);
+            }
             int i=0;
             for(StuckKnife k: stuckKnives){
                 k.updateFinished(delta);
@@ -184,6 +189,10 @@ public class MainAction implements InputProcessor {
                 nextKnifeAdd();
                 stuckKnifeAdd();
                 kCount();
+                if(gameFinished){
+                    lastHitFruit = fruitRemoval.get(slicedFruitIndex);
+                    fruitRemoval.removeIndex(slicedFruitIndex);
+                }
                 toss = false;
 
             }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGTH - knifeRemoval.get(0).getSprite().getHeight()/2){
@@ -242,6 +251,9 @@ public class MainAction implements InputProcessor {
                 woodFinishedAnimation.render(batch);
                 if(lastHitKnife != null){
                     lastHitKnife.renderHit(batch);
+                }
+                if(lastHitFruit != null){
+                    lastHitFruit.renderSlice(batch);
                 }
                 for(StuckKnife k : stuckKnives){
                         k.renderFinished(batch);
