@@ -29,9 +29,10 @@ public class MainAction implements InputProcessor {
     Boolean toss, overlapped, overlappedFruit, turn;
     DelayedRemovalArray<Knife> knifeRemoval;
     DelayedRemovalArray<Fruit> fruitRemoval;
+    WoodFinishedAnimation woodFinishedAnimation;
     Wood wood;
     Fruit fruitDeneme;
-    int slicedFruitIndex;
+    int slicedFruitIndex,blueKnife,redKnife;
 
     public MainAction(Viewport viewport) {
         this.viewport = viewport;
@@ -44,8 +45,9 @@ public class MainAction implements InputProcessor {
         overlappedFruit = false;
         turn = true;
         toss = false;
-
+        redKnife = blueKnife = 5;
         wood = new Wood();
+        woodFinishedAnimation = new WoodFinishedAnimation();
 
         knifeRemoval = new DelayedRemovalArray<Knife>(false, 1);
         fruitRemoval = new DelayedRemovalArray<Fruit>(false, 6);
@@ -96,27 +98,29 @@ public class MainAction implements InputProcessor {
 
 
     public void update(float delta) {
-        wood.update(delta);
+        if(redKnife>0||blueKnife>0){
+            wood.update(delta);
+            for(int i=0; i<stuckKnives.size();i++){
+                stuckKnives.get(i).update(delta);
+            }
+            for(Fruit fruit: fruitRemoval){
+                if(fruit.getSliced()){
+                    fruit.updateSlice(delta);
+                }else{
+                    fruit.update(delta);
+                }
+            }
+            tossKnife(delta);
 
-        for(int i=0; i<stuckKnives.size();i++){
-            stuckKnives.get(i).update(delta);
         }
-        /*
-        if(Gdx.input.isTouched()){
-            fruitDeneme.updateSlice(delta);
-        }else {
-            fruitDeneme.update(delta);
-        }
-         */
-        for(Fruit fruit: fruitRemoval){
-            if(fruit.getSliced()){
-                fruit.updateSlice(delta);
-            }else{
-                fruit.update(delta);
+        else {
+            woodFinishedAnimation.update(delta);
+            int i=0;
+            for(StuckKnife k: stuckKnives){
+                k.updateFinished(delta);
+                System.out.println(i++);
             }
         }
-
-        tossKnife(delta);
 
     }
 
@@ -165,12 +169,14 @@ public class MainAction implements InputProcessor {
                 fruitRemoval.set(slicedFruitIndex, fruitTemp);
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
+                kCount();
                 stuckKnifeAdd();
                 toss = false;
 
             }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGTH - knifeRemoval.get(0).getSprite().getHeight()/2){
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
+                kCount();
                 stuckKnifeAdd();
                 toss = false;
             }else if(!knifeRemoval.get(0).getHit()){
@@ -184,6 +190,7 @@ public class MainAction implements InputProcessor {
                 if (knifeRemoval.get(0).getPosition().y < -knifeRemoval.get(0).sprite.getHeight()) {
                     knifeRemoval.removeIndex(0);
                     toss = false;
+                    kCount();
                     nextKnifeAdd();
                 }
             }
@@ -196,16 +203,31 @@ public class MainAction implements InputProcessor {
     public void render(SpriteBatch batch) {
 
 
-        for(int i=0; i<stuckKnives.size();i++){
-            stuckKnives.get(i).render(batch);
-        }
-            if(knifeRemoval.get(0).getHit()){
-                knifeRemoval.get(0).renderHit(batch);
-            }else {
-                knifeRemoval.get(0).render(batch);
-            }
 
-        wood.render(batch);
+
+
+        if(redKnife>0||blueKnife>0)
+            {
+
+                for(int i=0; i<stuckKnives.size();i++){
+                    stuckKnives.get(i).render(batch);
+                }
+                if(knifeRemoval.get(0).getHit()){
+                    knifeRemoval.get(0).renderHit(batch);
+                }else {
+                    knifeRemoval.get(0).render(batch);
+                }
+
+                wood.render(batch);
+
+
+            }
+        else
+            {woodFinishedAnimation.render(batch);
+            for(StuckKnife k : stuckKnives){
+                k.renderFinished(batch);
+            }
+            }
 
         for(Fruit fruit: fruitRemoval){
             if(fruit.getSliced()){
@@ -214,7 +236,7 @@ public class MainAction implements InputProcessor {
                 fruit.render(batch);
             }
         }
-
+        System.out.println(blueKnife+"  "+redKnife);
 
     }
     public void nextKnifeAdd(){
@@ -232,6 +254,12 @@ public class MainAction implements InputProcessor {
             stuckKnives.add(new StuckKnife("knife1/drawable-mdpi/blue_knife.png",
                     spriteKnife.getWidth() / 2, (wood.sprite.getHeight() + spriteKnife.getHeight()) / 2));
         }
+    }
+    public void kCount(){
+        if(turn)
+            redKnife-=1;
+        else
+            blueKnife-=1;
     }
 
     @Override
@@ -251,8 +279,10 @@ public class MainAction implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        if(!toss)
+            {turn=!turn;}
         toss = true;
-        turn = !turn;
         return true;
     }
 

@@ -14,7 +14,7 @@ import static com.myknife.game.Constants.WORLD_SIZE;
 public class Knife {
     private Texture texture;
     protected Sprite sprite;
-    private Vector2 position;
+    protected Vector2 position;
     private float vx, vy;
     private Boolean isHit;
 
