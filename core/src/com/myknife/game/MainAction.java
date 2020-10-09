@@ -120,6 +120,9 @@ public class MainAction implements InputProcessor {
                 k.updateFinished(delta);
                 System.out.println(i++);
             }
+            for(Fruit fruit: fruitRemoval){
+                fruit.updateFinished(delta);
+            }
         }
 
     }
@@ -220,22 +223,27 @@ public class MainAction implements InputProcessor {
 
                 wood.render(batch);
 
+                for(Fruit fruit: fruitRemoval){
+                    if(fruit.getSliced()){
+                        fruit.renderSlice(batch);
+                    }else{
+                        fruit.render(batch);
+                    }
+                }
 
             }
         else
-            {woodFinishedAnimation.render(batch);
-            for(StuckKnife k : stuckKnives){
-                k.renderFinished(batch);
-            }
+                {
+                woodFinishedAnimation.render(batch);
+                for(StuckKnife k : stuckKnives){
+                        k.renderFinished(batch);
+                    }
+                for(Fruit fruit: fruitRemoval){
+                    fruit.renderFinished(batch);
+                }
             }
 
-        for(Fruit fruit: fruitRemoval){
-            if(fruit.getSliced()){
-                fruit.renderSlice(batch);
-            }else{
-                fruit.render(batch);
-            }
-        }
+
         System.out.println(blueKnife+"  "+redKnife);
 
     }

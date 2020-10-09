@@ -169,6 +169,44 @@ public class Fruit {
         position3.y = sprite3.getY();
     }
 
+    public void updateFinished(float delta){
+        vy1-=12.0f;
+        vy3-=12.0f;
+        vy2-=12.0f;
+        position1.y += delta * vy1;
+        position1.x += -delta * vx1;
+        sprite1.rotate(delta*60);
+        position2.x += delta * vx2;
+        position2.y += delta * vy2;
+        sprite2.rotate(delta*60);
+        position3.x += -delta * vx3;
+        position3.y += delta * vy3;
+        sprite3.rotate(delta*60);
+    }
+
+    public void renderFinished(SpriteBatch batch){
+        sprite1.setPosition(position1.x,
+                position1.y);
+        sprite1.draw(batch);
+
+        sprite2.setPosition(position2.x,
+                position2.y);
+        sprite2.draw(batch);
+
+        sprite3.setPosition(position3.x,
+                position3.y);
+        sprite3.draw(batch);
+
+        position1.x = sprite1.getX();
+        position1.y = sprite1.getY();
+
+        position2.x = sprite2.getX();
+        position2.y = sprite2.getY();
+
+        position3.x = sprite3.getX();
+        position3.y = sprite3.getY();
+    }
+
 
     public Sprite getSprite1() {
         return sprite1;

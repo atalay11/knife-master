@@ -25,16 +25,17 @@ public class StuckKnife extends Knife {
         sprite.setOrigin(originX, originY);
         position.x= WORLD_SIZE/2 - sprite.getWidth()/2;
         position.y= WOOD_HEIGTH - sprite.getHeight()/2;
-        vx=-400.0f+ MathUtils.random()*800.0f;
-        vy=-400.0f+ MathUtils.random()*800.0f;
+        vx=-100.0f+ MathUtils.random()*200.0f;
+        vy=250.0f+ MathUtils.random()*30.0f;
     }
 
     public void updateFinished(float delta){
         //TODO: stuck knives game finished animation.
        // System.out.println(sprite.getRotation());
+        vy-=18.0f;
         position.x+=delta*vx;
         position.y+=delta*vy;
-        sprite.rotate(delta * 60.0f);
+        sprite.rotate(delta * 150.0f);
     }
     public void renderFinished(SpriteBatch batch){
         sprite.setPosition(position.x,
