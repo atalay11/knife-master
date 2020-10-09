@@ -36,7 +36,7 @@ public class Knife {
     }
 
     public void update(float delta){
-        position.y = position.y + delta * (KNIFE_VELOCITY+ delta* 9.8f);
+        position.y = position.y + delta * (KNIFE_VELOCITY - delta* 9.8f);
         sprite.setPosition(position.x, position.y);
     }
     public void render(SpriteBatch batch){
@@ -46,14 +46,14 @@ public class Knife {
         position.y = sprite.getY();
     }
 
-    public void updateSlice(float delta){
+    public void updateHit(float delta){
 
         position.x += delta * vx;
-        position.y += delta * vy;
+        position.y += delta * (vy - delta * 500.0f);
         sprite.rotate(delta*3000.0f);
     }
 
-    public void renderSlice(SpriteBatch batch){
+    public void renderHit(SpriteBatch batch){
         sprite.setPosition(position.x,
                 position.y);
         sprite.draw(batch);
@@ -62,7 +62,6 @@ public class Knife {
         position.y = sprite.getY();
 
     }
-
 
 
     public Sprite getSprite() {

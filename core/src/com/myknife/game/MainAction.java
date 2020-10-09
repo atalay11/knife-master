@@ -1,8 +1,5 @@
 package com.myknife.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,11 +12,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
-import sun.rmi.runtime.Log;
-
+import static com.myknife.game.Constants.APPLE_TYPE;
+import static com.myknife.game.Constants.ORANGE_TYPE;
+import static com.myknife.game.Constants.PEAR_TYPE;
 import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.WOOD_HEIGTH;
-import static com.myknife.game.Constants.WORLD_SIZE;
 
 
 public class MainAction implements InputProcessor {
@@ -64,6 +61,7 @@ public class MainAction implements InputProcessor {
 
     private void woodPrepare() {
         //Default Knives are added to Wood
+        SPIN_FACTOR = 100.0f;
         stuckKnives.clear();
 
         knife = new Texture("knife1/drawable-mdpi/default_knife.png");
@@ -82,11 +80,13 @@ public class MainAction implements InputProcessor {
 
         for(int i = 0; i < 4; i++){
             float angle = 45 + i * 90;
-            int random = MathUtils.random(100);
+            int random = MathUtils.random(150);
             if(random < 50) {
                 fruitRemoval.add(orange(angle));
-            }else{
+            }else if(random < 100 && random > 50){
                 fruitRemoval.add(apple(angle));
+            }else{
+                fruitRemoval.add(pear(angle));
             }
         }
 
@@ -161,6 +161,7 @@ public class MainAction implements InputProcessor {
                 overlappedFruit = false;
                 Fruit fruitTemp = fruitRemoval.get(slicedFruitIndex);
                 fruitTemp.setSliced(true);
+                fruitTemp.addBuff();
                 fruitRemoval.set(slicedFruitIndex, fruitTemp);
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
@@ -178,7 +179,7 @@ public class MainAction implements InputProcessor {
 
             }
             if (knifeRemoval.get(0).getHit()) {
-                knifeRemoval.get(0).updateSlice(delta);
+                knifeRemoval.get(0).updateHit(delta);
                 System.out.println("1");
                 if (knifeRemoval.get(0).getPosition().y < -knifeRemoval.get(0).sprite.getHeight()) {
                     knifeRemoval.removeIndex(0);
@@ -199,7 +200,7 @@ public class MainAction implements InputProcessor {
             stuckKnives.get(i).render(batch);
         }
             if(knifeRemoval.get(0).getHit()){
-                knifeRemoval.get(0).renderSlice(batch);
+                knifeRemoval.get(0).renderHit(batch);
             }else {
                 knifeRemoval.get(0).render(batch);
             }
@@ -280,13 +281,20 @@ public class MainAction implements InputProcessor {
                 "knife1/drawable-mdpi/orange_half_2.png",
                 "knife1/drawable-mdpi/orange_leaf_2.png",
                 wood.sprite.getHeight()/2,
-                random);
+                random, ORANGE_TYPE);
     }
     private Fruit apple(float random){
         return new Fruit("knife1/drawable-mdpi/apple_half_2.png",
                 "knife1/drawable-mdpi/apple_half_1.png",
                 "knife1/drawable-mdpi/apple_leaf.png",
                 wood.sprite.getHeight()/2,
-                random);
+                random, APPLE_TYPE);
+    }
+    private Fruit pear(float random){
+        return new Fruit("knife1/drawable-mdpi/apple_half_2.png",
+                "knife1/drawable-mdpi/apple_half_1.png",
+                "knife1/drawable-mdpi/apple_leaf.png",
+                wood.sprite.getHeight()/2,
+                random, PEAR_TYPE);
     }
 }

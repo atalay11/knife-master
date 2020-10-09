@@ -13,6 +13,10 @@ import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.WOOD_HEIGTH;
 import static com.myknife.game.Constants.WORLD_SIZE;
 
+import static com.myknife.game.Constants.ORANGE_TYPE;
+import static com.myknife.game.Constants.APPLE_TYPE;
+import static com.myknife.game.Constants.PEAR_TYPE;
+
 
 public class Fruit {
 
@@ -21,19 +25,22 @@ public class Fruit {
     private Vector2 position1 = new Vector2(0,0),position2 = new Vector2(0,0),position3 = new Vector2(0,0);
     private Boolean isSliced;
 
-
+    private int type;
     private float random;
 
     private float vx1,vx2,vx3,vy1,vy2,vy3;
 
 
-    public Fruit(String pngPath1, String pngPath2, String pngPath3, float woodHeight, float random) {
+    public Fruit(String pngPath1, String pngPath2, String pngPath3, float woodHeight, float random, int type) {
         texture1 = new TextureRegion(new Texture(pngPath1));
         texture2 = new TextureRegion(new Texture(pngPath2));
         texture3 = new TextureRegion(new Texture(pngPath3));
         sprite1 = new Sprite(texture1);
         sprite2 = new Sprite(texture2);
         sprite3 = new Sprite(texture3);
+
+        this.type = type;
+
 
         isSliced = false;
 
@@ -113,6 +120,30 @@ public class Fruit {
         position3.x += -delta * vx3;
         position3.y += delta * vy3;
         sprite3.rotate(delta*60);
+    }
+
+    public void addBuff(){
+        switch (this.type){
+            case APPLE_TYPE : {
+                if(Math.abs(SPIN_FACTOR)<200.0f)
+                    SPIN_FACTOR*=2;
+                else if(Math.abs(SPIN_FACTOR)>399.0f)
+                    SPIN_FACTOR/=2;
+                break;
+            }
+            case ORANGE_TYPE : {
+                if(Math.abs(SPIN_FACTOR)<200.0f)
+                    SPIN_FACTOR*=4;
+                else if(Math.abs(SPIN_FACTOR)<400.f)
+                    SPIN_FACTOR*=2;
+                break;
+            }
+            case PEAR_TYPE : {
+                SPIN_FACTOR*=-1;
+                break;
+            }
+            default:break;
+        }
     }
 
     public void renderSlice(SpriteBatch batch){
