@@ -2,28 +2,31 @@ package com.myknife.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.WOOD_HEIGTH;
 import static com.myknife.game.Constants.WORLD_SIZE;
+import static com.myknife.game.Constants.WORLD_WIDTH;
 
 public class StuckKnife extends Knife {
     private float vx;
     private float vy;
-    public StuckKnife(String pngPath, float originX, float originY, float defaultKnifeRotationStart) {
-        super(pngPath);
-        sprite.setOrigin(originX, originY);
+
+    public StuckKnife(String pngPath, float woodHeight, float defaultKnifeRotationStart, Viewport viewport) {
+        super(pngPath, viewport);
+        sprite.setOrigin(sprite.getWidth()/2, woodHeight/2 + sprite.getHeight()/2);
         sprite.rotate(defaultKnifeRotationStart);
-        position.x= WORLD_SIZE/2 - sprite.getWidth()/2;
+        position.x= WORLD_WIDTH/2 - sprite.getWidth()/2;
         position.y= WOOD_HEIGTH - sprite.getHeight()/2;
         vx=-250.0f+ MathUtils.random()*500.0f;
         vy=-250.0f+ MathUtils.random()*500.0f;
     }
 
-    public StuckKnife(String pngPath, float originX, float originY) {
-        super(pngPath);
-        sprite.setOrigin(originX, originY);
-        position.x= WORLD_SIZE/2 - sprite.getWidth()/2;
+    public StuckKnife(String pngPath, float woodHeight, Viewport viewport) {
+        super(pngPath, viewport);
+        sprite.setOrigin(sprite.getWidth()/2, woodHeight/2 + sprite.getHeight()/2);
+        position.x= WORLD_WIDTH/2 - sprite.getWidth()/2;
         position.y= WOOD_HEIGTH - sprite.getHeight()/2;
         vx=-100.0f+ MathUtils.random()*200.0f;
         vy=250.0f+ MathUtils.random()*30.0f;

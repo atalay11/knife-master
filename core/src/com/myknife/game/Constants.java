@@ -14,5 +14,12 @@ public class Constants {
     public static final int APPLE_TYPE = 2;
     public static final int PEAR_TYPE = 3;
 
+    public static float WORLD_WIDTH = Gdx.graphics.getWidth();
+    public static float WORLD_HEIGTH = Gdx.graphics.getHeight();
+
+    public static float WOOD_WIDTH = WORLD_WIDTH/4;
+    public static float KNIFE_WIDTH = WORLD_WIDTH/40;
+    public static float FRUIT_WIDTH = WORLD_WIDTH/65;
+
     public static final float KNIFE_VELOCITY = 2000.0f;
 }

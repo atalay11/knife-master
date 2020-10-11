@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
 
+import static com.myknife.game.Constants.FRUIT_WIDTH;
 import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.WOOD_HEIGTH;
 import static com.myknife.game.Constants.WORLD_SIZE;
@@ -16,6 +18,7 @@ import static com.myknife.game.Constants.WORLD_SIZE;
 import static com.myknife.game.Constants.ORANGE_TYPE;
 import static com.myknife.game.Constants.APPLE_TYPE;
 import static com.myknife.game.Constants.PEAR_TYPE;
+import static com.myknife.game.Constants.WORLD_WIDTH;
 
 
 public class Fruit {
@@ -30,14 +33,19 @@ public class Fruit {
 
     private float vx1,vx2,vx3,vy1,vy2,vy3;
 
+    private Viewport viewport;
 
-    public Fruit(String pngPath1, String pngPath2, String pngPath3, float woodHeight, float random, int type) {
+
+    public Fruit(String pngPath1, String pngPath2, String pngPath3, float woodHeight, float random, int type, Viewport viewport) {
+        this.viewport = viewport;
+
         texture1 = new TextureRegion(new Texture(pngPath1));
         texture2 = new TextureRegion(new Texture(pngPath2));
         texture3 = new TextureRegion(new Texture(pngPath3));
         sprite1 = new Sprite(texture1);
         sprite2 = new Sprite(texture2);
         sprite3 = new Sprite(texture3);
+        sizeInit();
 
         this.type = type;
 
@@ -59,6 +67,22 @@ public class Fruit {
                 woodHeight + sprite1.getHeight() + sprite3.getHeight());
 
         init();
+
+    }
+
+    private void sizeInit() {
+        float proportion , proportion2, proportion3;
+        proportion2 = sprite2.getHeight()/sprite1.getHeight();
+        proportion3 = sprite1.getHeight()/sprite3.getWidth();
+        proportion = sprite1.getHeight()/sprite1.getWidth();
+
+        //to change fruit size change FRUIT_WIDTH
+        sprite1.setSize(FRUIT_WIDTH, FRUIT_WIDTH * proportion);
+
+        proportion = sprite2.getHeight()/sprite2.getWidth();
+        sprite2.setSize(sprite1.getHeight() * proportion2 / proportion, sprite1.getHeight() * proportion2);
+        proportion = sprite3.getHeight()/sprite3.getWidth();
+        sprite3.setSize(sprite1.getHeight()/proportion3, sprite1.getHeight() * proportion/proportion3);
 
     }
 

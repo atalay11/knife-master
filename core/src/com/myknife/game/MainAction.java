@@ -49,8 +49,8 @@ public class MainAction implements InputProcessor {
         toss = false;
         redKnife = blueKnife = 5;
         gameFinished = false;
-        wood = new Wood();
-        woodFinishedAnimation = new WoodFinishedAnimation();
+        wood = new Wood(viewport);
+        woodFinishedAnimation = new WoodFinishedAnimation(viewport);
         lastHitKnife = null;
         lastHitFruit = null;
 
@@ -71,15 +71,15 @@ public class MainAction implements InputProcessor {
         SPIN_FACTOR = 100.0f;
         stuckKnives.clear();
 
-        knife = new Texture("knife1/drawable-mdpi/default_knife.png");
+        knife = new Texture("knife1/drawable-xxxhdpi/default_knife.png");
         spriteKnife = new Sprite(knife);
         spriteKnife.setOrigin(spriteKnife.getWidth()/2,(wood.sprite.getHeight()+spriteKnife.getHeight())/2);
 
         for(int i = 0; i < 4; i++){
-            stuckKnives.add(new StuckKnife("knife1/drawable-mdpi/default_knife.png",
-                    spriteKnife.getWidth() / 2,
-                    (wood.sprite.getHeight() + spriteKnife.getHeight()) / 2 ,
-                    i * 90.0f));
+            stuckKnives.add(new StuckKnife("knife1/drawable-xxxhdpi/default_knife.png",
+                    wood.sprite.getHeight(),
+                    i * 90.0f,
+                    viewport));
         }
 
         //Fruits are added to Wood
@@ -129,7 +129,6 @@ public class MainAction implements InputProcessor {
             int i=0;
             for(StuckKnife k: stuckKnives){
                 k.updateFinished(delta);
-                System.out.println(i++);
             }
             for(Fruit fruit: fruitRemoval){
                 fruit.updateFinished(delta);
@@ -208,7 +207,6 @@ public class MainAction implements InputProcessor {
             }
             if (knifeRemoval.get(0).getHit()) {
                 knifeRemoval.get(0).updateHit(delta);
-                System.out.println("1");
                 if (knifeRemoval.get(0).getPosition().y < -knifeRemoval.get(0).sprite.getHeight()) {
                     knifeRemoval.removeIndex(0);
                     toss = false;
@@ -248,7 +246,6 @@ public class MainAction implements InputProcessor {
             }
         else
                 {
-                woodFinishedAnimation.render(batch);
                 if(lastHitKnife != null){
                     lastHitKnife.renderHit(batch);
                 }
@@ -258,29 +255,29 @@ public class MainAction implements InputProcessor {
                 for(StuckKnife k : stuckKnives){
                         k.renderFinished(batch);
                     }
+                woodFinishedAnimation.render(batch);
                 for(Fruit fruit: fruitRemoval){
                     fruit.renderFinished(batch);
                 }
             }
 
-
-        System.out.println(blueKnife+"  "+redKnife);
-
     }
     public void nextKnifeAdd(){
         if(turn) {
-            knifeRemoval.add(new Knife("knife1/drawable-mdpi/blue_knife.png"));
+            knifeRemoval.add(new Knife("knife1/drawable-xxxhdpi/blue_knife.png", viewport));
         }else{
-            knifeRemoval.add(new Knife("knife1/drawable-mdpi/red_knife.png"));
+            knifeRemoval.add(new Knife("knife1/drawable-xxxhdpi/red_knife.png",viewport));
         }
     }
     public void stuckKnifeAdd(){
         if(turn){
-            stuckKnives.add(new StuckKnife("knife1/drawable-mdpi/red_knife.png",
-                    spriteKnife.getWidth() / 2, (wood.sprite.getHeight() + spriteKnife.getHeight()) / 2));
+            stuckKnives.add(new StuckKnife("knife1/drawable-xxxhdpi/red_knife.png",
+                    wood.sprite.getHeight(),
+                    viewport));
         }else {
-            stuckKnives.add(new StuckKnife("knife1/drawable-mdpi/blue_knife.png",
-                    spriteKnife.getWidth() / 2, (wood.sprite.getHeight() + spriteKnife.getHeight()) / 2));
+            stuckKnives.add(new StuckKnife("knife1/drawable-xxxhdpi/blue_knife.png",
+                    wood.sprite.getHeight(),
+                    viewport));
         }
     }
     public void kCount(){
@@ -339,24 +336,27 @@ public class MainAction implements InputProcessor {
     }
 
     private Fruit orange(float random){
-        return new Fruit("knife1/drawable-mdpi/orange_half_1.png",
-                "knife1/drawable-mdpi/orange_half_2.png",
-                "knife1/drawable-mdpi/orange_leaf_2.png",
+        return new Fruit("knife1/drawable-xxxhdpi/orange_half_1.png",
+                "knife1/drawable-xxxhdpi/orange_half_2.png",
+                "knife1/drawable-xxxhdpi/orange_leaf_2.png",
                 wood.sprite.getHeight()/2,
-                random, ORANGE_TYPE);
+                random, ORANGE_TYPE,
+                viewport);
     }
     private Fruit apple(float random){
-        return new Fruit("knife1/drawable-mdpi/apple_half_2.png",
-                "knife1/drawable-mdpi/apple_half_1.png",
-                "knife1/drawable-mdpi/apple_leaf.png",
+        return new Fruit("knife1/drawable-xxxhdpi/apple_half_2.png",
+                "knife1/drawable-xxxhdpi/apple_half_1.png",
+                "knife1/drawable-xxxhdpi/apple_leaf.png",
                 wood.sprite.getHeight()/2,
-                random, APPLE_TYPE);
+                random, APPLE_TYPE,
+                viewport);
     }
     private Fruit pear(float random){
-        return new Fruit("knife1/drawable-mdpi/apple_half_2.png",
-                "knife1/drawable-mdpi/apple_half_1.png",
-                "knife1/drawable-mdpi/apple_leaf.png",
+        return new Fruit("knife1/drawable-xxxhdpi/apple_half_2.png",
+                "knife1/drawable-xxxhdpi/apple_half_1.png",
+                "knife1/drawable-xxxhdpi/apple_leaf.png",
                 wood.sprite.getHeight()/2,
-                random, PEAR_TYPE);
+                random, PEAR_TYPE,
+                viewport);
     }
 }

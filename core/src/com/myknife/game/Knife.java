@@ -5,30 +5,46 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.myknife.game.Constants.KNIFE_VELOCITY;
+import static com.myknife.game.Constants.KNIFE_WIDTH;
 import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.WOOD_HEIGTH;
 import static com.myknife.game.Constants.WORLD_SIZE;
+import static com.myknife.game.Constants.WORLD_WIDTH;
 
 public class Knife {
     private Texture texture;
     protected Sprite sprite;
     protected Vector2 position;
+    protected Viewport viewport;
     private float vx, vy;
     private Boolean isHit;
 
-    public Knife(String pngPath){
+    public Knife(String pngPath, Viewport viewport){
+        this.viewport = viewport;
+
         texture = new Texture(pngPath);
         sprite = new Sprite(texture);
+        System.out.println(sprite.getWidth());
+        System.out.println("HOOOPP ARAAAA \n");
+        sizeInit();
+        System.out.println(sprite.getWidth());
         position = new Vector2(WORLD_SIZE/2 - sprite.getWidth()/2, 0 );
         isHit = false;
 
         init();
     }
 
+    private void sizeInit() {
+        float proportion = sprite.getHeight()/sprite.getWidth();
+        sprite.setSize(KNIFE_WIDTH,KNIFE_WIDTH * proportion);
+        sprite.setOrigin(sprite.getWidth()/2,sprite.getHeight()/2);
+    }
+
     public void init(){
-        sprite.setPosition(WORLD_SIZE/2 - sprite.getWidth()/2, 0 );
+        sprite.setPosition(WORLD_WIDTH/2 - sprite.getWidth()/2, 0 );
 
         vx = MathUtils.random()*2000 - 500.0f;
         vy = -(1000.0f+ MathUtils.random()*200);

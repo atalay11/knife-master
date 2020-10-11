@@ -5,18 +5,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
 import static com.myknife.game.Constants.WOOD_HEIGTH;
+import static com.myknife.game.Constants.WOOD_WIDTH;
 import static com.myknife.game.Constants.WORLD_SIZE;
+import static com.myknife.game.Constants.WORLD_WIDTH;
 
 public class WoodFinishedAnimation {
-    private TextureRegion texture1 = new TextureRegion(new Texture("knife3/drawable-mdpi/1_st_piece.png"));
-    private TextureRegion texture2 = new TextureRegion(new Texture("knife3/drawable-mdpi/2_nd_piece.png"));
-    private TextureRegion texture3 = new TextureRegion(new Texture("knife3/drawable-mdpi/3_rd_piece.png"));
-    private TextureRegion texture4 = new TextureRegion(new Texture("knife3/drawable-mdpi/4_th_piece.png"));
+    private TextureRegion texture1 = new TextureRegion(new Texture("knife3/drawable-xxxhdpi/1_st_piece.png"));
+    private TextureRegion texture2 = new TextureRegion(new Texture("knife3/drawable-xxxhdpi/2_nd_piece.png"));
+    private TextureRegion texture3 = new TextureRegion(new Texture("knife3/drawable-xxxhdpi/3_rd_piece.png"));
+    private TextureRegion texture4 = new TextureRegion(new Texture("knife3/drawable-xxxhdpi/4_th_piece.png"));
     private Vector2 position1, position2, position3, position4;
     private Sprite sprite1, sprite2, sprite3, sprite4;
     private float vx1,vx2,vx3,vx4,vy1,vy2,vy3,vy4;
-    public  WoodFinishedAnimation(){
+
+    private Viewport viewport;
+
+    public  WoodFinishedAnimation(Viewport viewport){
+        this.viewport = viewport;
+
         sprite1 = new Sprite(texture1);
         sprite2 = new Sprite(texture2);
         sprite3 = new Sprite(texture3);
@@ -24,10 +33,13 @@ public class WoodFinishedAnimation {
         init();
     }
     public void init(){
-        position1 = new Vector2(WORLD_SIZE/2 - sprite1.getWidth(), WOOD_HEIGTH + sprite1.getHeight());
-        position2 = new Vector2(WORLD_SIZE/2 - sprite2.getWidth(), WOOD_HEIGTH);
-        position3 = new Vector2(WORLD_SIZE/2, WOOD_HEIGTH);
-        position4 = new Vector2(WORLD_SIZE/2, WOOD_HEIGTH + sprite1.getHeight());
+        sizeInit();
+
+
+        position1 = new Vector2(WORLD_WIDTH/2 - sprite1.getWidth(), WOOD_HEIGTH + sprite1.getHeight());
+        position2 = new Vector2(WORLD_WIDTH/2 - sprite2.getWidth(), WOOD_HEIGTH);
+        position3 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGTH);
+        position4 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGTH + sprite1.getHeight());
         vx1=-100.0f+ MathUtils.random()*200.0f;
         vy1=250.0f+ MathUtils.random()*30.0f;
         vx2=-100.0f+ MathUtils.random()*200.0f;
@@ -36,6 +48,13 @@ public class WoodFinishedAnimation {
         vy3=250.0f+ MathUtils.random()*30.0f;
         vx4=-100.0f+ MathUtils.random()*200.0f;
         vy4=250.0f+ MathUtils.random()*30.0f;
+    }
+
+    private void sizeInit() {
+        sprite1.setSize(WOOD_WIDTH / 2, WOOD_WIDTH / 2);
+        sprite2.setSize(WOOD_WIDTH / 2, WOOD_WIDTH / 2);
+        sprite3.setSize(WOOD_WIDTH / 2, WOOD_WIDTH / 2);
+        sprite4.setSize(WOOD_WIDTH / 2, WOOD_WIDTH / 2);
     }
     public void update(float delta){
         vy1-=18.0f;
