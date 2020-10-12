@@ -8,20 +8,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.Random;
-
 import static com.myknife.game.Constants.FRUIT_WIDTH;
 import static com.myknife.game.Constants.SPIN_DIRECTION;
 import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.SPIN_FACTOR_APPLE;
 import static com.myknife.game.Constants.SPIN_FACTOR_ORANGE;
-import static com.myknife.game.Constants.WOOD_HEIGTH;
+import static com.myknife.game.Constants.WOOD_HEIGHT;
 import static com.myknife.game.Constants.WORLD_SIZE;
 
 import static com.myknife.game.Constants.ORANGE_TYPE;
 import static com.myknife.game.Constants.APPLE_TYPE;
 import static com.myknife.game.Constants.PEAR_TYPE;
-import static com.myknife.game.Constants.WORLD_WIDTH;
 
 
 public class Fruit {
@@ -112,15 +109,15 @@ public class Fruit {
 
     public void render(SpriteBatch batch){
         sprite1.setPosition(WORLD_SIZE/2 - sprite1.getWidth()/2 + sprite1.getWidth()/9,
-                WOOD_HEIGTH - sprite1.getHeight());
+                WOOD_HEIGHT - sprite1.getHeight());
         sprite1.draw(batch);
 
         sprite2.setPosition(WORLD_SIZE/2 + sprite2.getWidth()/2 - sprite2.getWidth()/9,
-                WOOD_HEIGTH - sprite1.getHeight());
+                WOOD_HEIGHT - sprite1.getHeight());
         sprite2.draw(batch);
 
         sprite3.setPosition(WORLD_SIZE/2,
-                WOOD_HEIGTH - sprite1.getHeight() - sprite3.getHeight());
+                WOOD_HEIGHT - sprite1.getHeight() - sprite3.getHeight());
         sprite3.draw(batch);
 
         position1.x = sprite1.getX();
@@ -153,19 +150,22 @@ public class Fruit {
         switch (this.type){
             case APPLE_TYPE : {
                 SPIN_FACTOR = SPIN_FACTOR_APPLE;
+                SPIN_FACTOR *= SPIN_DIRECTION;
                 break;
             }
             case ORANGE_TYPE : {
                 SPIN_FACTOR = SPIN_FACTOR_ORANGE;
+                SPIN_FACTOR *= SPIN_DIRECTION;
                 break;
             }
             case PEAR_TYPE : {
                 SPIN_DIRECTION = -1;
+                SPIN_FACTOR *= SPIN_DIRECTION;
                 break;
             }
             default:break;
         }
-        SPIN_FACTOR *= SPIN_DIRECTION;
+
     }
 
     public void renderSlice(SpriteBatch batch){

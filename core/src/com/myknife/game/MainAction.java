@@ -16,7 +16,9 @@ import static com.myknife.game.Constants.APPLE_TYPE;
 import static com.myknife.game.Constants.ORANGE_TYPE;
 import static com.myknife.game.Constants.PEAR_TYPE;
 import static com.myknife.game.Constants.SPIN_FACTOR;
-import static com.myknife.game.Constants.WOOD_HEIGTH;
+import static com.myknife.game.Constants.WOOD_HEIGHT;
+import static com.myknife.game.Constants.WORLD_HEIGHT;
+import static com.myknife.game.Constants.SPIN_DIRECTION;
 
 
 public class MainAction implements InputProcessor {
@@ -68,7 +70,8 @@ public class MainAction implements InputProcessor {
 
     private void woodPrepare() {
         //Default Knives are added to Wood
-        SPIN_FACTOR = 100.0f;
+        SPIN_FACTOR = 120.0f;
+        SPIN_DIRECTION = 1;
         stuckKnives.clear();
 
         knife = new Texture("knife1/drawable-xxxhdpi/default_knife.png");
@@ -109,6 +112,7 @@ public class MainAction implements InputProcessor {
                 stuckKnives.get(i).update(delta);
             }
             for(Fruit fruit: fruitRemoval){
+
                 if(fruit.getSliced()){
                     fruit.updateSlice(delta);
                 }else{
@@ -126,13 +130,23 @@ public class MainAction implements InputProcessor {
             if(lastHitFruit != null){
                 lastHitFruit.updateSlice(delta);
             }
-            int i=0;
+            int highestKnife=-100;
             for(StuckKnife k: stuckKnives){
                 k.updateFinished(delta);
+                if(k.sprite.getY()>highestKnife)
+                    highestKnife=(int)k.sprite.getY();
             }
+            if(highestKnife<0)
+                stuckKnives.clear();
+
+            int highestFruit = -100;
             for(Fruit fruit: fruitRemoval){
                 fruit.updateFinished(delta);
+                if (fruit.sprite1.getY()>highestFruit)
+                    highestFruit=(int)fruit.sprite1.getY();
             }
+            if (highestFruit<0)
+                fruitRemoval.clear();
         }
 
     }
@@ -142,7 +156,7 @@ public class MainAction implements InputProcessor {
         if((toss) && (knifeRemoval.size == 1)) {
             Rectangle thrown = knifeRemoval.get(0).sprite.getBoundingRectangle();
             thrown.setHeight(thrown.getHeight()/1.5f);
-            thrown.setWidth(thrown.getWidth()/6);
+            thrown.setWidth(thrown.getWidth()/4f);
                 for(Knife knife : stuckKnives){
                     Rectangle stuck = knife.sprite.getBoundingRectangle();
                     stuck.setWidth(stuck.getWidth()/1.5f);
@@ -156,6 +170,7 @@ public class MainAction implements InputProcessor {
                     thrown.setWidth(thrown.getWidth()*6);
                     Rectangle fruit1 = fruit.sprite1.getBoundingRectangle();
                     Rectangle fruit2 = fruit.sprite2.getBoundingRectangle();
+                    fruit1.setWidth(fruit1.getWidth()*5/7);
                     fruit2.setWidth(fruit2.getWidth()*5/7);
                     if((thrown.overlaps(fruit1) || thrown.overlaps(fruit2)) && !fruit.getSliced() && !knifeRemoval.get(0).getHit()){
                         overlappedFruit = true;
@@ -173,10 +188,12 @@ public class MainAction implements InputProcessor {
                 knifeTemp.setHit(true);
                 knifeRemoval.add(knifeTemp);
                 kCount();
+                System.out.println(1);
                 if(gameFinished){
                     lastHitKnife = knifeRemoval.get(0);
                 }
                 overlapped = false;
+                //toss = false;
 
             }else if(overlappedFruit){
                 overlappedFruit = false;
@@ -188,17 +205,19 @@ public class MainAction implements InputProcessor {
                 nextKnifeAdd();
                 stuckKnifeAdd();
                 kCount();
+                System.out.println(2);
                 if(gameFinished){
                     lastHitFruit = fruitRemoval.get(slicedFruitIndex);
                     fruitRemoval.removeIndex(slicedFruitIndex);
                 }
                 toss = false;
 
-            }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGTH - knifeRemoval.get(0).getSprite().getHeight()/2){
+            }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGHT - knifeRemoval.get(0).getSprite().getHeight()/2){
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
                 stuckKnifeAdd();
                 kCount();
+                System.out.println(3);
                 toss = false;
             }else if(!knifeRemoval.get(0).getHit()){
 
@@ -353,7 +372,7 @@ public class MainAction implements InputProcessor {
     }
     private Fruit pear(float random){
         return new Fruit("knife1/drawable-xxxhdpi/apple_half_2.png",
-                "knife1/drawable-xxxhdpi/apple_half_1.png",
+                "knife1/drawable-xxxhdpi/orange_half_2.png",
                 "knife1/drawable-xxxhdpi/apple_leaf.png",
                 wood.sprite.getHeight()/2,
                 random, PEAR_TYPE,

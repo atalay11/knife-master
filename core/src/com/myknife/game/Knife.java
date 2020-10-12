@@ -9,8 +9,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.myknife.game.Constants.KNIFE_VELOCITY;
 import static com.myknife.game.Constants.KNIFE_WIDTH;
-import static com.myknife.game.Constants.SPIN_FACTOR;
-import static com.myknife.game.Constants.WOOD_HEIGTH;
 import static com.myknife.game.Constants.WORLD_SIZE;
 import static com.myknife.game.Constants.WORLD_WIDTH;
 
@@ -28,7 +26,6 @@ public class Knife {
         texture = new Texture(pngPath);
         sprite = new Sprite(texture);
         sizeInit();
-        System.out.println(sprite.getWidth());
         position = new Vector2(WORLD_SIZE/2 - sprite.getWidth()/2, 0 );
         isHit = false;
 

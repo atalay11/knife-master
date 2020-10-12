@@ -7,9 +7,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import static com.myknife.game.Constants.WOOD_HEIGTH;
+import static com.myknife.game.Constants.WOOD_HEIGHT;
 import static com.myknife.game.Constants.WOOD_WIDTH;
-import static com.myknife.game.Constants.WORLD_SIZE;
 import static com.myknife.game.Constants.WORLD_WIDTH;
 
 public class WoodFinishedAnimation {
@@ -36,10 +35,10 @@ public class WoodFinishedAnimation {
         sizeInit();
 
 
-        position1 = new Vector2(WORLD_WIDTH/2 - sprite1.getWidth(), WOOD_HEIGTH + sprite1.getHeight());
-        position2 = new Vector2(WORLD_WIDTH/2 - sprite2.getWidth(), WOOD_HEIGTH);
-        position3 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGTH);
-        position4 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGTH + sprite1.getHeight());
+        position1 = new Vector2(WORLD_WIDTH/2 - sprite1.getWidth(), WOOD_HEIGHT + sprite1.getHeight());
+        position2 = new Vector2(WORLD_WIDTH/2 - sprite2.getWidth(), WOOD_HEIGHT);
+        position3 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGHT);
+        position4 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGHT + sprite1.getHeight());
         vx1=-100.0f+ MathUtils.random()*200.0f;
         vy1=250.0f+ MathUtils.random()*30.0f;
         vx2=-100.0f+ MathUtils.random()*200.0f;

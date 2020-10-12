@@ -7,10 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.myknife.game.Constants.SPIN_FACTOR;
-import static com.myknife.game.Constants.WOOD_HEIGTH;
+import static com.myknife.game.Constants.WOOD_HEIGHT;
 import static com.myknife.game.Constants.WOOD_WIDTH;
-import static com.myknife.game.Constants.WORLD_HEIGTH;
-import static com.myknife.game.Constants.WORLD_SIZE;
 import static com.myknife.game.Constants.WORLD_WIDTH;
 
 public class Wood {
@@ -39,7 +37,7 @@ public class Wood {
     }
 
     public void render(SpriteBatch batch){
-        sprite.setPosition(WORLD_WIDTH/2 - sprite.getWidth()/2, WOOD_HEIGTH);
+        sprite.setPosition(WORLD_WIDTH/2 - sprite.getWidth()/2, WOOD_HEIGHT);
         sprite.draw(batch);
     }
 }
