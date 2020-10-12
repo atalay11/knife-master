@@ -8,7 +8,10 @@ public class Constants {
     public static final Color BACKGROUND_COLOR = new Color(0,0,139/255f,1);
 
     public static final float WOOD_HEIGTH = Gdx.graphics.getHeight()*6.0f/10;
-    public static float SPIN_FACTOR = 100.f;
+    public static float SPIN_FACTOR = 150.f;
+    public static final float SPIN_FACTOR_APPLE = 165.0f;
+    public static final float SPIN_FACTOR_ORANGE = 180.0f;
+    public static float SPIN_DIRECTION = -1;
 
     public static final int ORANGE_TYPE = 1;
     public static final int APPLE_TYPE = 2;
@@ -21,5 +24,5 @@ public class Constants {
     public static float KNIFE_WIDTH = WORLD_WIDTH/40;
     public static float FRUIT_WIDTH = WORLD_WIDTH/65;
 
-    public static final float KNIFE_VELOCITY = 2000.0f;
+    public static final float KNIFE_VELOCITY = Gdx.graphics.getHeight()*5.0f/3.0f;
 }

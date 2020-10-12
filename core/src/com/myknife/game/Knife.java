@@ -27,8 +27,6 @@ public class Knife {
 
         texture = new Texture(pngPath);
         sprite = new Sprite(texture);
-        System.out.println(sprite.getWidth());
-        System.out.println("HOOOPP ARAAAA \n");
         sizeInit();
         System.out.println(sprite.getWidth());
         position = new Vector2(WORLD_SIZE/2 - sprite.getWidth()/2, 0 );

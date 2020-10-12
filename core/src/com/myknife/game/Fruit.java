@@ -11,7 +11,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
 
 import static com.myknife.game.Constants.FRUIT_WIDTH;
+import static com.myknife.game.Constants.SPIN_DIRECTION;
 import static com.myknife.game.Constants.SPIN_FACTOR;
+import static com.myknife.game.Constants.SPIN_FACTOR_APPLE;
+import static com.myknife.game.Constants.SPIN_FACTOR_ORANGE;
 import static com.myknife.game.Constants.WOOD_HEIGTH;
 import static com.myknife.game.Constants.WORLD_SIZE;
 
@@ -149,25 +152,20 @@ public class Fruit {
     public void addBuff(){
         switch (this.type){
             case APPLE_TYPE : {
-                if(Math.abs(SPIN_FACTOR)<200.0f)
-                    SPIN_FACTOR*=2;
-                else if(Math.abs(SPIN_FACTOR)>399.0f)
-                    SPIN_FACTOR/=2;
+                SPIN_FACTOR = SPIN_FACTOR_APPLE;
                 break;
             }
             case ORANGE_TYPE : {
-                if(Math.abs(SPIN_FACTOR)<200.0f)
-                    SPIN_FACTOR*=4;
-                else if(Math.abs(SPIN_FACTOR)<400.f)
-                    SPIN_FACTOR*=2;
+                SPIN_FACTOR = SPIN_FACTOR_ORANGE;
                 break;
             }
             case PEAR_TYPE : {
-                SPIN_FACTOR*=-1;
+                SPIN_DIRECTION = -1;
                 break;
             }
             default:break;
         }
+        SPIN_FACTOR *= SPIN_DIRECTION;
     }
 
     public void renderSlice(SpriteBatch batch){
