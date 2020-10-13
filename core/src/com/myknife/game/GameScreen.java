@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import static com.myknife.game.Constants.APPLE_HIT;
 import static com.myknife.game.Constants.BACKGROUND_COLOR;
+import static com.myknife.game.Constants.ORANGE_HIT;
+import static com.myknife.game.Constants.PEAR_HIT;
+import static com.myknife.game.Constants.WOOD_WIDTH;
 import static com.myknife.game.Constants.WORLD_HEIGHT;
 import static com.myknife.game.Constants.WORLD_WIDTH;
 
@@ -125,6 +129,40 @@ public class GameScreen implements Screen {
             blueS.setPosition(WORLD_WIDTH*8/10,WORLD_HEIGHT/10+i*blueS.getHeight()*1.1f);
             blueS.draw(batch);
         }
+        for (int i=0;i<3;i++){
+            Texture icon;
+            switch (i){
+                case 0 : {
+                    if (!APPLE_HIT)
+                        icon = new Texture("knife1/drawable-xxxhdpi/speed_2_x.png");
+                    else
+                        icon = new Texture("knife2/drawable-xxxhdpi/speed_2_x.png");
+                    break;
+                }
+                case 1 : {
+                    if (!ORANGE_HIT)
+                        icon = new Texture("knife1/drawable-xxxhdpi/speed_4_x.png");
+                    else
+                        icon = new Texture("knife2/drawable-xxxhdpi/speed_4_x.png");
+                    break;
+                }
+                case 2 : {
+                    if (!PEAR_HIT)
+                        icon = new Texture("knife1/drawable-xxxhdpi/reverse.png");
+                    else
+                        icon = new Texture("knife2/drawable-xxxhdpi/reverse.png");
+                    break;
+                }
+                default:icon = new Texture("knife2/drawable-xxxhdpi/speed_2_x.png");
+                break;
+            }
+            Sprite iconS = new Sprite(icon);
+            float scale = iconS.getHeight()/iconS.getWidth();
+            iconS.setSize(WORLD_WIDTH/15,WORLD_WIDTH/15*scale);
+            iconS.setPosition(WORLD_WIDTH*10/15f+i*iconS.getWidth()*1.3f,WORLD_HEIGHT*9/10);
+            iconS.draw(batch);
+        }
     }
+
 
 }

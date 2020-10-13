@@ -8,7 +8,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import static com.myknife.game.Constants.APPLE_HIT;
 import static com.myknife.game.Constants.FRUIT_WIDTH;
+import static com.myknife.game.Constants.ORANGE_HIT;
+import static com.myknife.game.Constants.PEAR_HIT;
 import static com.myknife.game.Constants.SPIN_DIRECTION;
 import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.SPIN_FACTOR_APPLE;
@@ -98,6 +101,12 @@ public class Fruit {
         vy1= 250.0f+ MathUtils.random()*20;
         vy2= 250.0f+ MathUtils.random()*20;
         vy3= 250.0f+ MathUtils.random()*20;
+        vx1*=3;
+        vx2*=3;
+        vx3*=3;
+        vy1*=3;
+        vy2*=3;
+        vy3*=3;
     }
 
     public void update(float delta){
@@ -132,9 +141,9 @@ public class Fruit {
     }
 
     public void updateSlice(float delta){
-        vy1-=12.0f;
-        vy3-=12.0f;
-        vy2-=12.0f;
+        vy1-=36.0f;
+        vy3-=36.0f;
+        vy2-=36.0f;
         position1.y += delta * vy1;
         position1.x += -delta * vx1;
         sprite1.rotate(delta*60);
@@ -151,16 +160,19 @@ public class Fruit {
             case APPLE_TYPE : {
                 SPIN_FACTOR = SPIN_FACTOR_APPLE;
                 SPIN_FACTOR *= SPIN_DIRECTION;
+                APPLE_HIT = true;
                 break;
             }
             case ORANGE_TYPE : {
                 SPIN_FACTOR = SPIN_FACTOR_ORANGE;
                 SPIN_FACTOR *= SPIN_DIRECTION;
+                ORANGE_HIT = true;
                 break;
             }
             case PEAR_TYPE : {
                 SPIN_DIRECTION = -1;
                 SPIN_FACTOR *= SPIN_DIRECTION;
+                PEAR_HIT = true;
                 break;
             }
             default:break;
@@ -192,9 +204,9 @@ public class Fruit {
     }
 
     public void updateFinished(float delta){
-        vy1-=12.0f;
-        vy3-=12.0f;
-        vy2-=12.0f;
+        vy1-=36.0f;
+        vy3-=36.0f;
+        vy2-=36.0f;
         position1.y += delta * vy1;
         position1.x += delta * vx1;
         sprite1.rotate(delta*60);

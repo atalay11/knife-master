@@ -14,15 +14,18 @@ public class Constants {
     public static float SPIN_DIRECTION = 1;
 
     public static final int ORANGE_TYPE = 1;
+    public static boolean ORANGE_HIT = false;
     public static final int APPLE_TYPE = 2;
+    public static boolean APPLE_HIT = false;
     public static final int PEAR_TYPE = 3;
+    public static boolean PEAR_HIT = false;
 
     public static float WORLD_WIDTH = Gdx.graphics.getWidth();
     public static float WORLD_HEIGHT = Gdx.graphics.getHeight();
 
-    public static float WOOD_WIDTH = WORLD_WIDTH/4;
-    public static float KNIFE_WIDTH = WORLD_WIDTH/40;
-    public static float FRUIT_WIDTH = WORLD_WIDTH/65;
+    public static float WOOD_WIDTH = WORLD_WIDTH/2.5f;
+    public static float KNIFE_WIDTH = WORLD_WIDTH/25;
+    public static float FRUIT_WIDTH = WORLD_WIDTH/40.6f;
 
     public static final float KNIFE_VELOCITY = WORLD_HEIGHT*5.0f/3.0f;
 }

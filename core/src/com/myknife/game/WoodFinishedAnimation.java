@@ -40,13 +40,21 @@ public class WoodFinishedAnimation {
         position3 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGHT);
         position4 = new Vector2(WORLD_WIDTH/2, WOOD_HEIGHT + sprite1.getHeight());
         vx1=-100.0f+ MathUtils.random()*200.0f;
+        vx1*=2;
         vy1=250.0f+ MathUtils.random()*30.0f;
+        vy1*=3;
         vx2=-100.0f+ MathUtils.random()*200.0f;
+        vx2*=2;
         vy2=250.0f+ MathUtils.random()*30.0f;
+        vy2*=3;
         vx3=-100.0f+ MathUtils.random()*200.0f;
+        vx3*=2;
         vy3=250.0f+ MathUtils.random()*30.0f;
+        vy3*=3;
         vx4=-100.0f+ MathUtils.random()*200.0f;
+        vx4*=2;
         vy4=250.0f+ MathUtils.random()*30.0f;
+        vy4*=3;
     }
 
     private void sizeInit() {
@@ -56,10 +64,10 @@ public class WoodFinishedAnimation {
         sprite4.setSize(WOOD_WIDTH / 2, WOOD_WIDTH / 2);
     }
     public void update(float delta){
-        vy1-=18.0f;
-        vy2-=18.0f;
-        vy3-=18.0f;
-        vy4-=18.0f;
+        vy1-=36.0f;
+        vy2-=36.0f;
+        vy3-=36.0f;
+        vy4-=36.0f;
         position1.x += delta* vx1;
         position1.y += delta* vy1;
         position2.x += delta* vx2;

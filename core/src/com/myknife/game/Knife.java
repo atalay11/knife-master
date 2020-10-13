@@ -60,8 +60,8 @@ public class Knife {
     public void updateHit(float delta){
 
         position.x += delta * vx;
-        position.y += delta * (vy - delta * 500.0f);
-        sprite.rotate(delta*3000.0f);
+        position.y += delta * (vy - delta * 10000.0f);
+        sprite.rotate(delta*1200.0f);
     }
 
     public void renderHit(SpriteBatch batch){
