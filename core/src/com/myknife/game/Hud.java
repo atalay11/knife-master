@@ -1,6 +1,8 @@
 package com.myknife.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -9,6 +11,7 @@ import static com.myknife.game.Constants.ORANGE_HIT;
 import static com.myknife.game.Constants.PEAR_HIT;
 import static com.myknife.game.Constants.WORLD_HEIGHT;
 import static com.myknife.game.Constants.WORLD_WIDTH;
+import static com.myknife.game.MainAction.*;
 
 public class Hud {
     private Texture red;
@@ -18,6 +21,7 @@ public class Hud {
     private Sprite blueS;
 
     private Texture icon;
+    private BitmapFont font;
 
     private Texture iconAppleNotSliced;
     private Texture iconAppleSliced;
@@ -59,6 +63,10 @@ public class Hud {
 
         redAlpha = new float[]{1, 1, 1, 1, 1};
         blueAlpha = new float[]{1, 1, 1, 1, 1};
+
+        font = new BitmapFont();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getData().setScale(7);
     }
 
     public void render(SpriteBatch batch){
@@ -109,6 +117,21 @@ public class Hud {
             iconS.setPosition(WORLD_WIDTH*10/15f+i*iconS.getWidth()*1.3f,WORLD_HEIGHT*9/10);
             iconS.draw(batch);
         }
+
+
+        font.setColor(Color.RED);
+        font.draw(batch,
+                scoreRed.toString(),
+                WORLD_WIDTH/10,
+                WORLD_HEIGHT/10+7*redS.getHeight()*1.1f);
+
+        font.setColor(Color.BLUE);
+        font.draw(batch,
+                scoreBlue.toString(),
+                WORLD_WIDTH*8/10,
+                WORLD_HEIGHT/10+7*redS.getHeight()*1.1f);
+
+
     }
 
 }

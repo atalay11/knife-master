@@ -42,7 +42,7 @@ public class Knife {
         sprite.setPosition(WORLD_WIDTH/2 - sprite.getWidth()/2, 0 );
 
         vx = MathUtils.random()*2000 - 500.0f;
-        vy = -(1000.0f+ MathUtils.random()*200);
+        vy = -(KNIFE_VELOCITY/2f+ MathUtils.random()*200);
 
     }
 
@@ -60,7 +60,7 @@ public class Knife {
     public void updateHit(float delta){
 
         position.x += delta * vx;
-        position.y += delta * (vy - delta * 10000.0f);
+        position.y += delta * (vy);
         sprite.rotate(delta*1200.0f);
     }
 

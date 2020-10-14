@@ -18,21 +18,20 @@ import static com.myknife.game.Constants.*;
 
 public class MainAction implements InputProcessor {
 
-    Vector2 position = null;
-    Viewport viewport;
-    Texture knife;
-    Sprite spriteKnife;
-    ArrayList<StuckKnife> stuckKnives = new ArrayList<StuckKnife>();
-    Boolean toss, overlapped, overlappedFruit, turn , gameFinished;
-    DelayedRemovalArray<Knife> knifeRemoval;
-    DelayedRemovalArray<Fruit> fruitRemoval;
-    WoodFinishedAnimation woodFinishedAnimation;
-    Knife lastHitKnife;
-    Fruit lastHitFruit;
-    Wood wood;
-    Fruit fruitDeneme;
-    Boolean knifeTurning;
-    int slicedFruitIndex,blueKnife,redKnife;
+    private Viewport viewport;
+    private Texture knife;
+    private Sprite spriteKnife;
+    private ArrayList<StuckKnife> stuckKnives = new ArrayList<StuckKnife>();
+    private Boolean toss, overlapped, overlappedFruit, turn , gameFinished;
+    private DelayedRemovalArray<Knife> knifeRemoval;
+    private DelayedRemovalArray<Fruit> fruitRemoval;
+    private WoodFinishedAnimation woodFinishedAnimation;
+    private Knife lastHitKnife;
+    private Fruit lastHitFruit;
+    private Wood wood;
+    private Boolean knifeTurning;
+    public static Integer scoreRed,scoreBlue;
+    public int slicedFruitIndex,blueKnife,redKnife;
 
     public MainAction(Viewport viewport) {
         this.viewport = viewport;
@@ -52,6 +51,7 @@ public class MainAction implements InputProcessor {
         woodFinishedAnimation = new WoodFinishedAnimation(viewport);
         lastHitKnife = null;
         lastHitFruit = null;
+        scoreRed = scoreBlue = 0;
 
         knifeRemoval = new DelayedRemovalArray<Knife>(false, 1);
         fruitRemoval = new DelayedRemovalArray<Fruit>(false, 6);
@@ -61,7 +61,6 @@ public class MainAction implements InputProcessor {
         nextKnifeAdd(); //starter knife(blue)
 
 
-            fruitDeneme = orange(0);
 
     }
 
@@ -234,13 +233,32 @@ public class MainAction implements InputProcessor {
                     fruitRemoval.removeIndex(slicedFruitIndex);
                 }
                 toss = false;
+                if(turn)
+                    scoreRed+=FRUIT_HIT_SCORE;
+                else
+                    scoreBlue+=FRUIT_HIT_SCORE;
 
             }else if(knifeRemoval.get(0).getPosition().y > WOOD_HEIGHT - knifeRemoval.get(0).getSprite().getHeight()/2){
                 knifeRemoval.removeIndex(0);
                 nextKnifeAdd();
                 stuckKnifeAdd();
                 kCount();
-                System.out.println(3);
+                if (turn){
+                    if (Math.abs(SPIN_FACTOR)>=SPIN_FACTOR_ORANGE)
+                        scoreRed+=x4_SCORE;
+                    else if (Math.abs(SPIN_FACTOR)>=SPIN_FACTOR_APPLE)
+                        scoreRed+=x2_SCORE;
+                    else
+                        scoreRed++;
+                }
+                else{
+                    if (Math.abs(SPIN_FACTOR)>=SPIN_FACTOR_ORANGE)
+                        scoreBlue+=x4_SCORE;
+                    else if (Math.abs(SPIN_FACTOR)>=SPIN_FACTOR_APPLE)
+                        scoreBlue+=x2_SCORE;
+                    else
+                        scoreBlue++;
+                }
                 toss = false;
             }else if(!knifeRemoval.get(0).getHit()){
 

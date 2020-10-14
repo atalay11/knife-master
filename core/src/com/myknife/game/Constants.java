@@ -20,6 +20,11 @@ public class Constants {
     public static final int PEAR_TYPE = 3;
     public static boolean PEAR_HIT = false;
 
+    public static final int FRUIT_HIT_SCORE = 5;
+    public static final int SCORE = 1;
+    public static final int x2_SCORE = 2;
+    public static final int x4_SCORE = 4;
+
     public static float WORLD_WIDTH = Gdx.graphics.getWidth();
     public static float WORLD_HEIGHT = Gdx.graphics.getHeight();
 
