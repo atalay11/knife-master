@@ -130,69 +130,80 @@ public class MainAction implements InputProcessor {
             if(lastHitFruit != null){
                 lastHitFruit.updateSlice(delta);
             }
-            int highestKnife=-100;
-            for(StuckKnife k: stuckKnives){
-                k.updateFinished(delta);
-                if(k.sprite.getY()>highestKnife)
-                    highestKnife=(int)k.sprite.getY();
-            }
-            if(highestKnife<0)
-                stuckKnives.clear();
-
-            int highestFruit = -100;
-            for(Fruit fruit: fruitRemoval){
-                fruit.updateFinished(delta);
-                if (fruit.sprite1.getY()>highestFruit)
-                    highestFruit=(int)fruit.sprite1.getY();
-            }
-            if (highestFruit<0)
-                fruitRemoval.clear();
+            deleteAll(delta);
         }
 
+    }
+
+    private void deleteAll(float delta) {
+        int highestKnife=-100;
+        for(StuckKnife k: stuckKnives){
+            k.updateFinished(delta);
+            if(k.sprite.getY()>highestKnife)
+                highestKnife=(int)k.sprite.getY();
+        }
+        if(highestKnife<0)
+            stuckKnives.clear();
+
+        int highestFruit = -100;
+        for(Fruit fruit: fruitRemoval){
+            fruit.updateFinished(delta);
+            if (fruit.sprite1.getY()>highestFruit)
+                highestFruit=(int)fruit.sprite1.getY();
+        }
+        if (highestFruit<0)
+            fruitRemoval.clear();
     }
 
     private void tossKnife(float delta) {
 
         if((toss) && (knifeRemoval.size == 1)) {
-            Rectangle thrown = knifeRemoval.get(0).sprite.getBoundingRectangle();
-            if(SPIN_DIRECTION==1)
-            { thrown.setHeight(thrown.getHeight()/1.5f);
-            thrown.setWidth(thrown.getWidth()/3f);}
-            else
-            {
+            /*
+            Rectangle adjustments must be done here:
+            thrown for thrown knife
+            stuck for stuckknives
+            fruit1 and fruit2 for fruits
+             */
+            Rectangle thrown;
+            if(SPIN_DIRECTION==1) {
+                thrown =  knifeRemoval.get(0).sprite.getBoundingRectangle();
                 thrown.setHeight(thrown.getHeight()/1.5f);
-                thrown.setWidth(thrown.getWidth()/1f);
+                thrown.setWidth(thrown.getWidth()/6f);
+            }else{
+                thrown = knifeRemoval.get(0).sprite.getBoundingRectangle();
+                thrown.setHeight(thrown.getHeight()/1.5f);
+                thrown.setWidth(thrown.getWidth()/3f);
             }
                 for(Knife knife : stuckKnives){
                     Rectangle stuck = knife.sprite.getBoundingRectangle();
-                    stuck.setWidth(stuck.getWidth()/1.5f);
-                    stuck.setHeight(stuck.getHeight()/1.5f);
+                    if(SPIN_DIRECTION == 1){
+                        stuck.setWidth(stuck.getWidth()/1.5f);
+                        stuck.setHeight(stuck.getHeight()/1.5f);
+                    }else{
+                        stuck.setWidth(stuck.getWidth()/2f);
+                        stuck.setHeight(stuck.getHeight()/1.5f);
+                    }
                 if(stuck.overlaps(thrown) && !knifeRemoval.get(0).getHit()){
                     overlapped = true;
                 }
-                int index = 0;
-                for(Fruit fruit: fruitRemoval){     //slice fruit check
-                    if(SPIN_DIRECTION==1)
-                    {thrown.setHeight(thrown.getHeight()*1.5f);
-                    thrown.setWidth(thrown.getWidth()*3);}
-                    else{
-                        thrown.setHeight(thrown.getHeight()*1.5f);
-                        thrown.setWidth(thrown.getWidth()*1f);
-                    }
-                    Rectangle fruit1 = fruit.sprite1.getBoundingRectangle();
-                    Rectangle fruit2 = fruit.sprite2.getBoundingRectangle();
-                    fruit1.setWidth(fruit1.getWidth()*5/7);
-                    fruit2.setWidth(fruit2.getWidth()*5/7);
-                    if((thrown.overlaps(fruit1) || thrown.overlaps(fruit2)) && !fruit.getSliced() && !knifeRemoval.get(0).getHit()){
-                        overlappedFruit = true;
-                        slicedFruitIndex = index;
-                    }
-                    index++;
-                    thrown.setHeight(thrown.getHeight()/1.5f);
-                    thrown.setWidth(thrown.getWidth()/6);
-                }
             }
-
+            int index = 0;
+            for(Fruit fruit: fruitRemoval){     //slice fruit check
+                if(SPIN_DIRECTION==1) {
+                    thrown = knifeRemoval.get(0).sprite.getBoundingRectangle();
+                }else{
+                    thrown = knifeRemoval.get(0).sprite.getBoundingRectangle();
+                }
+                Rectangle fruit1 = fruit.sprite1.getBoundingRectangle();
+                Rectangle fruit2 = fruit.sprite2.getBoundingRectangle();
+                fruit1.setWidth(fruit1.getWidth()*5/7);
+                fruit2.setWidth(fruit2.getWidth()*5/7);
+                if((thrown.overlaps(fruit1) || thrown.overlaps(fruit2)) && !fruit.getSliced() && !knifeRemoval.get(0).getHit()){
+                    overlappedFruit = true;
+                    slicedFruitIndex = index;
+                }
+                index++;
+            }
             if(overlapped){
                 Knife knifeTemp = knifeRemoval.get(0);
                 knifeRemoval.clear();

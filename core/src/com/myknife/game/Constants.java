@@ -27,5 +27,5 @@ public class Constants {
     public static float KNIFE_WIDTH = WORLD_WIDTH/25;
     public static float FRUIT_WIDTH = WORLD_WIDTH/40.6f;
 
-    public static final float KNIFE_VELOCITY = WORLD_HEIGHT*5.0f/3.0f;
+    public static final float KNIFE_VELOCITY = WORLD_HEIGHT*8.0f/3.0f;
 }
