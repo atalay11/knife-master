@@ -17,11 +17,11 @@ import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.SPIN_FACTOR_APPLE;
 import static com.myknife.game.Constants.SPIN_FACTOR_ORANGE;
 import static com.myknife.game.Constants.WOOD_HEIGHT;
-import static com.myknife.game.Constants.WORLD_SIZE;
 
 import static com.myknife.game.Constants.ORANGE_TYPE;
 import static com.myknife.game.Constants.APPLE_TYPE;
 import static com.myknife.game.Constants.PEAR_TYPE;
+import static com.myknife.game.Constants.WORLD_WIDTH;
 
 
 public class Fruit {
@@ -95,6 +95,7 @@ public class Fruit {
         sprite2.rotate(random);
         sprite3.rotate(random);
 
+        //velocities of fruit parts
         vx1= 25.0f+ MathUtils.random()*50;
         vx2= 25.0f+ MathUtils.random()*50;
         vx3= -25.0f+ MathUtils.random()*75;
@@ -117,15 +118,15 @@ public class Fruit {
 
 
     public void render(SpriteBatch batch){
-        sprite1.setPosition(WORLD_SIZE/2 - sprite1.getWidth()/2 + sprite1.getWidth()/9,
+        sprite1.setPosition(WORLD_WIDTH/2 - sprite1.getWidth()/2 + sprite1.getWidth()/9,
                 WOOD_HEIGHT - sprite1.getHeight());
         sprite1.draw(batch);
 
-        sprite2.setPosition(WORLD_SIZE/2 + sprite2.getWidth()/2 - sprite2.getWidth()/9,
+        sprite2.setPosition(WORLD_WIDTH/2 + sprite2.getWidth()/2 - sprite2.getWidth()/9,
                 WOOD_HEIGHT - sprite1.getHeight());
         sprite2.draw(batch);
 
-        sprite3.setPosition(WORLD_SIZE/2,
+        sprite3.setPosition(WORLD_WIDTH/2,
                 WOOD_HEIGHT - sprite1.getHeight() - sprite3.getHeight());
         sprite3.draw(batch);
 
@@ -241,30 +242,6 @@ public class Fruit {
         position3.y = sprite3.getY();
     }
 
-
-    public Sprite getSprite1() {
-        return sprite1;
-    }
-
-    public void setSprite1(Sprite sprite1) {
-        this.sprite1 = sprite1;
-    }
-
-    public Sprite getSprite2() {
-        return sprite2;
-    }
-
-    public void setSprite2(Sprite sprite2) {
-        this.sprite2 = sprite2;
-    }
-
-    public Sprite getSprite3() {
-        return sprite3;
-    }
-
-    public void setSprite3(Sprite sprite3) {
-        this.sprite3 = sprite3;
-    }
 
     public Boolean getSliced() {
         return isSliced;

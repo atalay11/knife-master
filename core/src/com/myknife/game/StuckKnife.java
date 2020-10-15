@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.myknife.game.Constants.SPIN_FACTOR;
 import static com.myknife.game.Constants.WOOD_HEIGHT;
-import static com.myknife.game.Constants.WORLD_SIZE;
 import static com.myknife.game.Constants.WORLD_WIDTH;
 
 public class StuckKnife extends Knife {
@@ -37,7 +36,6 @@ public class StuckKnife extends Knife {
     }
 
     public void updateFinished(float delta){
-        //TODO: stuck knives game finished animation.
         vy-=36.0f;
         position.x+=delta*vx;
         position.y+=delta*vy;
@@ -59,7 +57,7 @@ public class StuckKnife extends Knife {
 
     @Override
     public void render(SpriteBatch batch){
-        sprite.setPosition(WORLD_SIZE/2 - sprite.getWidth()/2, WOOD_HEIGHT - sprite.getHeight()/2 );
+        sprite.setPosition(WORLD_WIDTH/2 - sprite.getWidth()/2, WOOD_HEIGHT - sprite.getHeight()/2 );
         sprite.draw(batch);
         position.x=sprite.getX();
         position.y=sprite.getY();

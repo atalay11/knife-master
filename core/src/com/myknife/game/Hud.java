@@ -119,6 +119,7 @@ public class Hud {
         }
 
 
+
         font.setColor(Color.RED);
         font.draw(batch,
                 scoreRed.toString(),
@@ -130,8 +131,6 @@ public class Hud {
                 scoreBlue.toString(),
                 WORLD_WIDTH*8/10,
                 WORLD_HEIGHT/10+7*redS.getHeight()*1.1f);
-
-
     }
 
 }
