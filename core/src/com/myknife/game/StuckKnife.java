@@ -12,8 +12,8 @@ public class StuckKnife extends Knife {
     private float vx;
     private float vy;
 
-    public StuckKnife(String pngPath, float woodHeight, float defaultKnifeRotationStart, Viewport viewport) {
-        super(pngPath, viewport);
+    public StuckKnife(String pngPath, float woodHeight, float defaultKnifeRotationStart) {
+        super(pngPath);
         sprite.setOrigin(sprite.getWidth()/2, woodHeight/2 + sprite.getHeight()/2);
         sprite.rotate(defaultKnifeRotationStart);
         position.x= WORLD_WIDTH/2 - sprite.getWidth()/2;
@@ -24,8 +24,8 @@ public class StuckKnife extends Knife {
         vy*=2;
     }
 
-    public StuckKnife(String pngPath, float woodHeight, Viewport viewport) {
-        super(pngPath, viewport);
+    public StuckKnife(String pngPath, float woodHeight) {
+        super(pngPath);
         sprite.setOrigin(sprite.getWidth()/2, woodHeight/2 + sprite.getHeight()/2);
         position.x= WORLD_WIDTH/2 - sprite.getWidth()/2;
         position.y= WOOD_HEIGHT - sprite.getHeight()/2;

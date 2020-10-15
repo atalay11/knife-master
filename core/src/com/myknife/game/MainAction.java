@@ -42,7 +42,7 @@ public class MainAction implements InputProcessor {
         knifeTurning = false;   //if knife hit another knife it will be true
         redKnife = blueKnife = 5;
         gameFinished = false;
-        wood = new Wood(viewport);
+        wood = new Wood();
         woodFinishedAnimation = new WoodFinishedAnimation(viewport);
         lastHitKnife = null;
         lastHitFruit = null;
@@ -67,8 +67,7 @@ public class MainAction implements InputProcessor {
         for(int i = 0; i < 4; i++){
             stuckKnives.add(new StuckKnife("knife1/drawable-xxxhdpi/default_knife.png",
                     wood.sprite.getHeight(),
-                    i * 90.0f,
-                    viewport));
+                    i * 90.0f));
         }
 
         //Fruits are added to Wood
@@ -350,21 +349,19 @@ public class MainAction implements InputProcessor {
 
     public void nextKnifeAdd(){
         if(turn) {
-            knifeRemoval.add(new Knife("knife1/drawable-xxxhdpi/blue_knife.png", viewport));
+            knifeRemoval.add(new Knife("knife1/drawable-xxxhdpi/blue_knife.png"));
         }else{
-            knifeRemoval.add(new Knife("knife1/drawable-xxxhdpi/red_knife.png",viewport));
+            knifeRemoval.add(new Knife("knife1/drawable-xxxhdpi/red_knife.png"));
         }
     }
 
     public void stuckKnifeAdd(){
         if(turn){
             stuckKnives.add(new StuckKnife("knife1/drawable-xxxhdpi/red_knife.png",
-                    wood.sprite.getHeight(),
-                    viewport));
+                    wood.sprite.getHeight()));
         }else {
             stuckKnives.add(new StuckKnife("knife1/drawable-xxxhdpi/blue_knife.png",
-                    wood.sprite.getHeight(),
-                    viewport));
+                    wood.sprite.getHeight()));
         }
     }
 
@@ -428,23 +425,20 @@ public class MainAction implements InputProcessor {
                 "knife1/drawable-xxxhdpi/orange_half_2.png",
                 "knife1/drawable-xxxhdpi/orange_leaf_2.png",
                 wood.sprite.getHeight()/2,
-                random, ORANGE_TYPE,
-                viewport);
+                random, ORANGE_TYPE);
     }
     private Fruit apple(float random){
         return new Fruit("knife1/drawable-xxxhdpi/apple_half_2.png",
                 "knife1/drawable-xxxhdpi/apple_half_1.png",
                 "knife1/drawable-xxxhdpi/apple_leaf.png",
                 wood.sprite.getHeight()/2,
-                random, APPLE_TYPE,
-                viewport);
+                random, APPLE_TYPE);
     }
     private Fruit pear(float random){
         return new Fruit("knife1/drawable-xxxhdpi/apple_half_2.png",
                 "knife1/drawable-xxxhdpi/orange_half_2.png",
                 "knife1/drawable-xxxhdpi/apple_leaf.png",
                 wood.sprite.getHeight()/2,
-                random, PEAR_TYPE,
-                viewport);
+                random, PEAR_TYPE);
     }
 }

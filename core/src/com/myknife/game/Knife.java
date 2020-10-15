@@ -15,12 +15,10 @@ public class Knife {
     private Texture texture;
     protected Sprite sprite;
     protected Vector2 position;
-    protected Viewport viewport;
     private float vx, vy;
     private Boolean isHit;
 
-    public Knife(String pngPath, Viewport viewport){
-        this.viewport = viewport;
+    public Knife(String pngPath){
 
         texture = new Texture(pngPath);
         sprite = new Sprite(texture);

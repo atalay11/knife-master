@@ -14,12 +14,9 @@ import static com.myknife.game.Constants.WORLD_WIDTH;
 public class Wood {
     private Texture texture;
     protected Sprite sprite;
-    private Vector2 position;
-    private Viewport viewport;
     private float proportion;
 
-    public Wood(Viewport viewport){
-        this.viewport = viewport;
+    public Wood(){
 
         texture = new Texture("knife1/drawable-xxxhdpi/wood.png");
         sprite = new Sprite(texture);

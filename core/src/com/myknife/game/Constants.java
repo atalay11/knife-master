@@ -26,7 +26,10 @@ public class Constants {
     public static final int x2_SCORE = 2;
     public static final int x4_SCORE = 4;
 
-    //Size of game objects and knife velocity are adjusted according to world dimensions
+    /*
+    Size of game objects and knife velocity are adjusted according to world dimensions.
+    Therefore the ratio of the dimensions of the game world (width and height) to each other must be constant.
+     */
     public static float WORLD_WIDTH = Gdx.graphics.getWidth();
     public static float WORLD_HEIGHT = Gdx.graphics.getHeight();
 

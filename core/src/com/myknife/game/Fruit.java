@@ -36,11 +36,10 @@ public class Fruit {
 
     private float vx1,vx2,vx3,vy1,vy2,vy3;
 
-    private Viewport viewport;
 
 
-    public Fruit(String pngPath1, String pngPath2, String pngPath3, float woodHeight, float random, int type, Viewport viewport) {
-        this.viewport = viewport;
+
+    public Fruit(String pngPath1, String pngPath2, String pngPath3, float woodHeight, float random, int type) {
 
         texture1 = new TextureRegion(new Texture(pngPath1));
         texture2 = new TextureRegion(new Texture(pngPath2));
